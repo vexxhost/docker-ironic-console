@@ -9,20 +9,19 @@ ADD https://github.com/openstack/ironic.git#d689812fb50bdefe12db17d5ca67be6a6bd5
 FROM ubuntu:24.04@sha256:68ee22004a9109b44973313b02ff7b1de250f1de0f5ecb628d73f579aaff33ac
 ENV FIREFOX_USER=firefox
 ENV FIREFOX_USER_HOME=/home/${FIREFOX_USER}
-RUN <<SCRIPT bash -xe
-apt-get update -qq
-apt-get install -qq -y --no-install-recommends \
-    curl dumb-init iproute2 procps psmisc python3-requests \
-    software-properties-common x11vnc xvfb
-add-apt-repository -y ppa:mozillateam/ppa
-apt-get install -qq -y --no-install-recommends firefox-esr
-apt-get purge -qq -y software-properties-common
-apt-get autoremove -qq -y
-apt-get clean
-rm -rf /var/lib/apt/lists/*
-groupadd -g 42424 ${FIREFOX_USER}
-useradd -u 42424 -g 42424 --create-home --home-dir ${FIREFOX_USER_HOME} --shell /bin/bash ${FIREFOX_USER}
-SCRIPT
+RUN apt-get update -qq && \
+    apt-get install -qq -y --no-install-recommends \
+        curl dumb-init iproute2 procps psmisc python3-requests \
+        software-properties-common x11vnc xvfb && \
+    add-apt-repository -y ppa:mozillateam/ppa && \
+    apt-get install -qq -y --no-install-recommends firefox-esr && \
+    apt-get purge -qq -y software-properties-common && \
+    apt-get autoremove -qq -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+RUN groupadd -g 42424 "${FIREFOX_USER}" && \
+    useradd -u 42424 -g 42424 --create-home \
+        --home-dir "${FIREFOX_USER_HOME}" --shell /bin/bash "${FIREFOX_USER}"
 ENV DISPLAY_WIDTH=1280 \
     DISPLAY_HEIGHT=960 \
     APP=fake \
