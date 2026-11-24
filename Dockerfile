@@ -6,7 +6,7 @@
 FROM scratch AS src
 ADD https://github.com/openstack/ironic.git#d689812fb50bdefe12db17d5ca67be6a6bd59155 /
 
-FROM ubuntu:24.04@sha256:9c7f200c07e3d4a03e7249d2c16bf66a51120fb876aa2242cf31451412543289
+FROM ubuntu:24.04@sha256:562111b88caa79c71391c0c4d3c2114a7d5c35915c20561fd893cb1e07929e6b
 ENV FIREFOX_USER=firefox
 ENV FIREFOX_USER_HOME=/home/${FIREFOX_USER}
 RUN apt-get update -qq && \
